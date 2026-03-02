@@ -8,3 +8,11 @@ Download the ZIP by clicking the green button `Code` -> `Download ZIP`
 Next, unzip the ZIP file.
 
 And follow the steps described in the [Fabric Documentation](https://docs.fabricmc.net/develop/getting-started/building-a-mod).
+
+<details>
+<summary>Mod`s Resourses</summary>
+  You can use the code, content, data, assets, sounds in your add-ons for this mod (eg compatibility between mods) if the add-on is open source (not necessarily for data packs), free and hosted on CurseForge or Modrinth.<br>
+  You can use the mod in your modpacks if they are free and hosted on CurseForge or Modrinth.<br>
+  You can make your own resource packs for this mod if they are free and hosted on CurseForge or Modrinth.<br>
+  You can use the mod on your servers if they are free.<br>
+</details>
