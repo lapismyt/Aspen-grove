@@ -9,6 +9,10 @@ Next, unzip the ZIP file.
 
 And follow the steps described in the [Fabric Documentation](https://docs.fabricmc.net/develop/getting-started/building-a-mod).
 
+Used libraries:<br>
+[Oh The Trees You'll Grow](https://github.com/CorgiTaco-MC/Oh-The-Trees-Youll-Grow): custom trees<br>
+[Biolith](https://github.com/TerraformersMC/Biolith): biome placement in world<br>
+
 <details>
 <summary>Rules for using mod for Minecraft projects</summary>
   You can use the code, content, data, assets, sounds in your add-ons for this mod (eg compatibility between mods) if the add-on is open source (not necessarily for data packs), free and hosted on CurseForge or Modrinth.<br>
