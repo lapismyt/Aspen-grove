@@ -13,7 +13,7 @@
 		"sources": "${sources_link}",
 		"issues": "${issues_link}"
 	},
-	"license": "MIT",
+	"license": "GPL-3.0-or-later",
 	"icon": "assets/aspengrove/icon.png",
 	"environment": "*",
 	"entrypoints": {
