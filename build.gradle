@@ -52,9 +52,10 @@ processResources {
 			"java_version": project.java_version,
 			"archives_base_name":project.archives_base_name,
 			"mod_name": project.mod_name,
-			"mod_description": project.mod_description, 
+			"mod_description": project.mod_description,
 			"sources_link": project.sources_link,
-			"issues_link": project.issues_link
+			"issues_link": project.issues_link,
+			"mod_license": project.mod_license
 	]
 
 	inputs.properties(resourceTargets)
@@ -90,7 +91,7 @@ publishing {
 			from components.java
 		}
 	}
-	
+
 	repositories {
 	}
 }
