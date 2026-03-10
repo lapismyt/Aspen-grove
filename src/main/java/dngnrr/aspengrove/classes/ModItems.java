@@ -20,6 +20,8 @@ public class ModItems {
     public static final Item ASPEN_CHEST_BOAT = register("aspen_chest_boat",
             settings -> new BoatItem(ModEntities.ASPEN_CHEST_BOAT, settings));
 
+    public static final Item BOUQUET = register("bouquet", Item::new);
+
     private static Item register(String name, Function<Item.Properties, Item> factory) {
         Identifier id = Identifier.fromNamespaceAndPath(Aspengrove.MOD_ID, name);
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, id);
