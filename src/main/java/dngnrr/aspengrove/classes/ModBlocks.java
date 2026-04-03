@@ -1,7 +1,8 @@
 package dngnrr.aspengrove.classes;
 
 import com.mojang.serialization.MapCodec;
-import net.fabricmc.fabric.api.registry.FuelRegistryEvents;
+import dngnrr.aspengrove.Aspengrove;
+import net.fabricmc.fabric.api.registry.FuelValueEvents;
 import net.fabricmc.fabric.api.registry.StrippableBlockRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ColorParticleOption;
@@ -9,6 +10,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
@@ -16,7 +18,6 @@ import net.minecraft.world.item.SignItem;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import dngnrr.aspengrove.Aspengrove;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -27,20 +28,19 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.resources.Identifier;
+import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 
 import java.util.function.Function;
 import java.lang.reflect.Field;
 import java.util.Set;
 
 public class ModBlocks {
-
     public static void initialize() {
         addToBlockEntityTypes();
     }
 
     private static class AspenLeavesBlock extends LeavesBlock {
         public static final MapCodec<AspenLeavesBlock> CODEC = simpleCodec(AspenLeavesBlock::new);
-
         public AspenLeavesBlock(BlockBehaviour.Properties properties) {
             super(0.05f,properties);
         }
@@ -53,29 +53,22 @@ public class ModBlocks {
         @Override
         public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
             super.animateTick(state, level, pos, random);
-
             if (random.nextFloat() < 0.05f) {
                 BlockPos blockPos = pos.below();
                 BlockState blockState = level.getBlockState(blockPos);
-
                 if (blockState.isFaceSturdy(level, blockPos, net.minecraft.core.Direction.UP)) {
                     return;
                 }
 
                 int count = 1 + random.nextInt(1);
-
                 for (int i = 0; i < count; i++) {
                     double x = pos.getX() + random.nextDouble();
-
                     double y = pos.getY() - 0.1;
                     double z = pos.getZ() + random.nextDouble();
-
                     double xSpeed = (random.nextDouble() - 0.5) * 0.02;
                     double ySpeed = -0.04 - random.nextDouble() * 0.03;
                     double zSpeed = (random.nextDouble() - 0.5) * 0.02;
-
                     float[] color = new float[]{1.0F, 0.84F, 0.0F};
-
                     level.addParticle(
                             ColorParticleOption.create(ParticleTypes.TINTED_LEAVES, color[0], color[1], color[2]),
                             x, y, z,
@@ -87,7 +80,6 @@ public class ModBlocks {
 
         @Override
         protected void spawnFallingLeavesParticle(Level level,BlockPos blockPos,RandomSource randomSource) {
-
         }
     }
 
@@ -357,8 +349,64 @@ public class ModBlocks {
             true
     );
 
+    public static final Block POTTED_ASPEN_SAPLING = register(
+            "potted_aspen_sapling",
+            (properties) -> new FlowerPotBlock(ASPEN_SAPLING, properties),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING)
+                    .mapColor(MapColor.GRASS),
+            true
+    );
+
+    public static final Block HONEYFLOWER = register(
+            "honeyflower",
+            (properties) -> new FlowerBlock(MobEffects.HEALTH_BOOST, 10, properties),
+            BlockBehaviour.Properties
+                    .ofFullCopy(Blocks.POPPY),
+            true
+    );
+
+    public static final Block POTTED_HONEYFLOWER = register(
+            "potted_honeyflower",
+            (properties) -> new FlowerPotBlock(HONEYFLOWER, properties),
+            BlockBehaviour.Properties
+                    .ofFullCopy(Blocks.POTTED_POPPY),
+            true
+    );
+
+    public static final Block ORANGE_MUSHROOM = register(
+            "orange_mushroom",
+            (properties) -> new MushroomBlock(ModTreeGrowers.HUGE_ORANGE_MUSHROOM_PLACED, properties),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM)
+                    .mapColor(MapColor.COLOR_ORANGE),
+            true
+    );
+
+    public static final Block POTTED_ORANGE_MUSHROOM = register(
+            "potted_orange_mushroom",
+            (properties) -> new FlowerPotBlock(ORANGE_MUSHROOM, properties),
+            BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_RED_MUSHROOM)
+                    .mapColor(MapColor.COLOR_ORANGE),
+            true
+    );
+
+    public static final Block ORANGE_MUSHROOM_BLOCK = register(
+            "orange_mushroom_block",
+            HugeMushroomBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM_BLOCK)
+                    .mapColor(MapColor.COLOR_ORANGE),
+            true
+    );
+
+    public static void registerCompostables() {
+        ComposterBlock.COMPOSTABLES.put(ASPEN_LEAVES.asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ASPEN_SAPLING.asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(HONEYFLOWER.asItem(), 0.65F);
+        ComposterBlock.COMPOSTABLES.put(ORANGE_MUSHROOM.asItem(), 0.65F);
+        ComposterBlock.COMPOSTABLES.put(ORANGE_MUSHROOM_BLOCK.asItem(), 0.85F);
+    }
+
     public static void registerFuels() {
-        FuelRegistryEvents.BUILD.register((builder,context) -> {
+        FuelValueEvents.BUILD.register((builder,context) -> {
             builder.add(ASPEN_PLANKS,300);
             builder.add(ASPEN_LOG,300);
             builder.add(STRIPPED_ASPEN_LOG,300);
@@ -384,28 +432,26 @@ public class ModBlocks {
     }
 
     public static void registerFlammables() {
-        FireBlock fireBlock = (FireBlock) Blocks.FIRE;
-
-        fireBlock.setFlammable(ASPEN_LOG, 5, 5);
-        fireBlock.setFlammable(STRIPPED_ASPEN_LOG, 5, 5);
-        fireBlock.setFlammable(ASPEN_WOOD, 5, 5);
-        fireBlock.setFlammable(STRIPPED_ASPEN_WOOD, 5, 5);
-        fireBlock.setFlammable(ASPEN_PLANKS, 5, 20);
-        fireBlock.setFlammable(ASPEN_SLAB, 5, 20);
-        fireBlock.setFlammable(ASPEN_STAIRS, 5, 20);
-        fireBlock.setFlammable(ASPEN_FENCE, 5, 20);
-        fireBlock.setFlammable(ASPEN_FENCE_GATE, 5, 20);
-        fireBlock.setFlammable(ASPEN_LEAVES, 30, 60);
-        fireBlock.setFlammable(ASPEN_SAPLING, 30, 60);
-        fireBlock.setFlammable(ASPEN_SIGN, 20, 5);
-        fireBlock.setFlammable(ASPEN_WALL_SIGN, 20, 5);
-        fireBlock.setFlammable(ASPEN_HANGING_SIGN, 20, 5);
-        fireBlock.setFlammable(ASPEN_WALL_HANGING_SIGN, 20, 5);
+        FlammableBlockRegistry registry = FlammableBlockRegistry.getDefaultInstance();
+        registry.add(ASPEN_LOG, 5, 5);
+        registry.add(STRIPPED_ASPEN_LOG, 5, 5);
+        registry.add(ASPEN_WOOD, 5, 5);
+        registry.add(STRIPPED_ASPEN_WOOD, 5, 5);
+        registry.add(ASPEN_PLANKS, 5, 20);
+        registry.add(ASPEN_SLAB, 5, 20);
+        registry.add(ASPEN_STAIRS, 5, 20);
+        registry.add(ASPEN_FENCE, 5, 20);
+        registry.add(ASPEN_FENCE_GATE, 5, 20);
+        registry.add(ASPEN_LEAVES, 30, 60);
+        registry.add(ASPEN_SAPLING, 30, 60);
+        registry.add(ASPEN_SIGN, 20, 5);
+        registry.add(ASPEN_WALL_SIGN, 20, 5);
+        registry.add(ASPEN_HANGING_SIGN, 20, 5);
+        registry.add(ASPEN_WALL_HANGING_SIGN, 20, 5);
     }
 
     private static void addToBlockEntityTypes() {
         try {
-
             Field targetField = null;
             for (Field field : BlockEntityType.class.getDeclaredFields()) {
                 if (Set.class.isAssignableFrom(field.getType())) {
@@ -419,13 +465,11 @@ public class ModBlocks {
                     }
                 }
             }
-
             if (targetField == null) {
                 System.err.println("[AspenGrove] CRITICAL: Could not find Set<Block> field in BlockEntityType");
                 return;
             }
             targetField.setAccessible(true);
-
             Set<Block> signBlocks = (Set<Block>) targetField.get(BlockEntityType.SIGN);
             boolean modified = false;
             try {
@@ -441,7 +485,6 @@ public class ModBlocks {
             if (modified) {
                 System.out.println("[AspenGrove] Successfully added signs to BlockEntityType.SIGN");
             }
-
             Set<Block> hangingSignBlocks = (Set<Block>) targetField.get(BlockEntityType.HANGING_SIGN);
             modified = false;
             try {
@@ -456,13 +499,11 @@ public class ModBlocks {
             if (modified) {
                 System.out.println("[AspenGrove] Successfully added hanging signs to BlockEntityType.HANGING_SIGN");
             }
-
             Set<Block> shelfBlocks = (Set<Block>) targetField.get(BlockEntityType.SHELF);
             modified = false;
             try {
                 modified = shelfBlocks.add(ASPEN_SHELF);
             } catch (UnsupportedOperationException e) {
-
                 Set<Block> newShelfBlocks = new java.util.HashSet<>(shelfBlocks);
                 newShelfBlocks.add(ASPEN_SHELF);
                 targetField.set(BlockEntityType.SHELF, newShelfBlocks);
@@ -471,7 +512,6 @@ public class ModBlocks {
             if (modified) {
                 System.out.println("[AspenGrove] Successfully added shelves to BlockEntityType.SHELF");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

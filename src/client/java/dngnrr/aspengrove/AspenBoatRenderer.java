@@ -10,12 +10,10 @@ public class AspenBoatRenderer extends BoatRenderer {
 
     public AspenBoatRenderer(EntityRendererProvider.Context context, ModelLayerLocation modelLayerLocation, String name, boolean isChest) {
         super(context, modelLayerLocation);
-
         String folder = isChest ? "chest_boat" : "boat";
         this.customTexture = Identifier.fromNamespaceAndPath("aspengrove", "textures/entity/" + folder + "/" + name + ".png");
     }
 
-    @Override
     protected net.minecraft.client.renderer.rendertype.RenderType renderType() {
         return this.model().renderType(this.customTexture);
     }

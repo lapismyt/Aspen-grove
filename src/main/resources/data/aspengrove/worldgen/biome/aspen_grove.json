@@ -65,7 +65,7 @@
         "type": "minecraft:glow_squid",
         "maxCount": 6,
         "minCount": 4,
-        "weigh": 10
+        "weight": 10
       }
     ],
     "monster": [
@@ -73,19 +73,19 @@
         "type": "minecraft:spider",
         "maxCount": 4,
         "minCount": 4,
-        "weigh": 100
+        "weight": 100
       },
       {
         "type": "minecraft:enderman",
         "maxCount": 4,
         "minCount": 1,
-        "weigh": 10
+        "weight": 10
       },
       {
         "type": "minecraft:slime",
         "maxCount": 4,
         "minCount": 4,
-        "weigh": 100
+        "weight": 100
       }
     ]
   },
@@ -120,10 +120,10 @@
     ["minecraft:amethyst_geode"],
     ["minecraft:monster_room", "minecraft:monster_room_deep"],
     [],
-    ["aspengrove:aspen_tree_placed", "aspengrove:aspen_vegetation"],
+    ["aspengrove:aspen_tree_placed"],
     ["minecraft:ore_dirt", "minecraft:ore_gravel", "minecraft:ore_coal_upper", "minecraft:ore_iron_upper", "minecraft:ore_gold", "minecraft:ore_redstone", "minecraft:ore_diamond", "minecraft:ore_lapis", "minecraft:ore_copper"],
     [],
     ["minecraft:spring_water", "minecraft:spring_lava"],
-    ["minecraft:glow_lichen", "minecraft:patch_leaf_litter", "minecraft:patch_large_fern", "minecraft:flower_plains", "minecraft:patch_grass_taiga_2", "minecraft:patch_grass_plain", "minecraft:patch_sugar_cane"]
+    ["aspengrove:honeyflower_placed", "aspengrove:orange_mushroom_placed", "minecraft:glow_lichen", "minecraft:patch_leaf_litter", "minecraft:patch_large_fern", "minecraft:flower_plains", "minecraft:patch_grass_taiga_2", "minecraft:patch_grass_plain", "minecraft:patch_sugar_cane"]
   ]
 }

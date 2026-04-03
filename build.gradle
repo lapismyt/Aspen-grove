@@ -1,5 +1,5 @@
 plugins {
-	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
 }
 
@@ -34,19 +34,15 @@ loom {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings loom.officialMojangMappings()
-	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-	modImplementation "maven.modrinth:oh-the-trees-youll-grow:${ottyg_version}"
-	modImplementation "com.terraformersmc:biolith-fabric:${biolith_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	implementation "com.terraformersmc:biolith-fabric:${biolith_version}"
 
 	include "com.terraformersmc:biolith-fabric:${biolith_version}"
-	include "maven.modrinth:oh-the-trees-youll-grow:${ottyg_version}"
 }
 
 processResources {
 	def resourceTargets = [
-			"version": project.version,
 			"minecraft_version": project.minecraft_version,
 			"loader_version": project.loader_version,
 			"java_version": project.java_version,
@@ -55,7 +51,9 @@ processResources {
 			"mod_description": project.mod_description,
 			"sources_link": project.sources_link,
 			"issues_link": project.issues_link,
-			"mod_license": project.mod_license
+			"mod_license": project.mod_license,
+			"version": project.version,
+			"needed_minecraft_version": project.needed_minecraft_version
 	]
 
 	inputs.properties(resourceTargets)
@@ -66,14 +64,14 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = 25
 }
 
 java {
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {
