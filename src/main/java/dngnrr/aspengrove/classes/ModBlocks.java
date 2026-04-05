@@ -336,7 +336,7 @@ public class ModBlocks {
 
     public static final Block ASPEN_SAPLING = register(
             "aspen_sapling",
-            (settings) -> new SaplingBlock(ModTreeGrowers.ASPEN,settings),
+            (settings) -> new SaplingBlock(ModTreeGrowers.ASPEN, settings),
             BlockBehaviour.Properties.of()
                     .mapColor(MapColor.PLANT)
                     .noCollision()
@@ -375,7 +375,7 @@ public class ModBlocks {
 
     public static final Block ORANGE_MUSHROOM = register(
             "orange_mushroom",
-            (properties) -> new MushroomBlock(ModTreeGrowers.HUGE_ORANGE_MUSHROOM_PLACED, properties),
+            (properties) -> new ModMushroomBlock(ModTreeGrowers.HUGE_ORANGE_MUSHROOM_SELECTOR, properties),
             BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM)
                     .mapColor(MapColor.COLOR_ORANGE),
             true

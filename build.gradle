@@ -18,6 +18,7 @@ repositories {
 	maven {
 		url = "https://maven.terraformersmc.com/releases/"
 	}
+	maven { url "https://jitpack.io" }
 }
 
 loom {
@@ -37,8 +38,10 @@ dependencies {
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 	implementation "com.terraformersmc:biolith-fabric:${biolith_version}"
-
 	include "com.terraformersmc:biolith-fabric:${biolith_version}"
+
+	implementation project(':nbtfied_trees')
+	include project(':nbtfied_trees')
 }
 
 processResources {
@@ -53,7 +56,8 @@ processResources {
 			"issues_link": project.issues_link,
 			"mod_license": project.mod_license,
 			"version": project.version,
-			"needed_minecraft_version": project.needed_minecraft_version
+			"min_minecraft_version": project.min_minecraft_version,
+			"min_loader_version": project.min_loader_version
 	]
 
 	inputs.properties(resourceTargets)
@@ -75,10 +79,11 @@ java {
 }
 
 jar {
-	inputs.property "archivesName", project.base.archivesName
+	def archName = project.base.archivesName.get()
+	inputs.property "archivesName", archName
 
 	from("LICENSE") {
-		rename { "${it}_${inputs.properties.archivesName}"}
+		rename { "${it}_${archName}" }
 	}
 }
 
