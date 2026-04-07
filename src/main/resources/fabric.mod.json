@@ -33,8 +33,4 @@
 		"nbtfied_trees": "*",
 		"biolith": "*"
 	},
-	"breaks": {
-		 "quilt_loader": "*",
-		 "quilted_fabric_loader": "*"
-    }
 }
